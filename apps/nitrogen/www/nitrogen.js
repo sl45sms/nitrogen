@@ -372,6 +372,20 @@ NitrogenClass.prototype.$datepicker = function(pickerObj, pickerOptions) {
     jQuery(pickerObj).datepicker(pickerOptions);
 }
 
+/*** SLIDER ***/
+NitrogenClass.prototype.$slider = function(path, sliderOptions, changePostbackInfo) {
+    var n = this;
+    jQuery.extend(sliderOptions, {
+        slide: function(ev, ui) {
+            jQuery(this).find('input[type=hidden]').val(ui.value);
+        },
+        change: function(ev, ui) {
+            n.$queue_event(null, changePostbackInfo, "change_value="+ui.value);
+        }
+    });
+    jQuery(path).slider(sliderOptions);
+}
+
 /*** AUTOCOMPLETE TEXTBOX ***/
 NitrogenClass.prototype.$autocomplete = function(path, autocompleteOptions, enterPostbackInfo, selectPostbackInfo) {
     var n = this;
