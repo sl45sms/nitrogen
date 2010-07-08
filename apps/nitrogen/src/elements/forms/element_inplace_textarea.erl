@@ -70,7 +70,7 @@ event({ok, Delegate, {ViewPanelID, LabelID, EditPanelID, TextBoxID}, Tag}) ->
     Value = wf:q(TextBoxID),
     Module = wf:coalesce([Delegate, wf:page_module()]),
     Value1 = Module:inplace_textarea_event(Tag, Value),
-    wf:update(LabelID, Value1),
+    wf:update(LabelID, wf:html_encode(Value1)),
     wf:set(TextBoxID, Value1),
     wf:wire(EditPanelID, #hide {}),
     wf:wire(ViewPanelID, #show {}),
