@@ -34,14 +34,15 @@ render_element(Record) ->
     },
     wf:wire(SliderScript),
 
-    % Render as a panel and range textbox ...
+    % Render as a panel and hidden input element ...
     element_panel:render_element(#panel {
         anchor=Anchor,
+        id=Record#slider.id,
         class=[slider, Record#slider.class],
         style=Record#slider.style,
         body=#hidden {
           id=Record#slider.id,
-          text=Record#slider.value
+          text=wf:to_list(Record#slider.value)
         }
     }).
 
