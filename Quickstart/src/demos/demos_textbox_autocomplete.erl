@@ -39,7 +39,7 @@ autocomplete_enter_event(SearchTerm, _Tag) ->
     ],
     mochijson2:encode(List).
 
-autocomplete_select_event({struct, [{<<"id">>, _ },{<<"value">>, Value}]} , _Tag) ->
+autocomplete_select_event([{ id, _ },{ value, Value }] , _Tag) ->
     wf:flash(Value),
     ok.
 

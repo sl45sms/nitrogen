@@ -42,7 +42,11 @@ render_element(Record) ->
     ]).
 
 event({autocomplete_select_event, Delegate, SelectTag})->
-    SelectItem = mochijson2:decode(wf:q(select_item)),
+   {struct, JsonData} = mochijson2:decode(wf:q(select_item)),
+    SelectItem = [
+        { id, proplists:get_value(<<"id">>, JsonData)}, 
+        { value, proplists:get_value(<<"value">> , JsonData)}
+    ],
     Module = wf:coalesce([Delegate, wf:page_module()]),
     Module:autocomplete_select_event(SelectItem, SelectTag);
 
