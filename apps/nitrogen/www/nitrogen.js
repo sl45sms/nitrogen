@@ -81,7 +81,7 @@ NitrogenClass.prototype.$validate_and_serialize = function(validationGroup) {
         n = this;
 
     jQuery(":input").not(".no_postback").each(function(i) {
-        if (this.validator && this.validator.group == this.validationGroup && !this.validator.validate()) {
+        if (this.validator && this.validator.group == validationGroup && !this.validator.validate()) {
             // Set a flag, but keep validating to show all messages.
             is_valid = false;
         } else {
