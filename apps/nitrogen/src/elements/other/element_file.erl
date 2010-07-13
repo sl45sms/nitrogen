@@ -16,7 +16,7 @@ render_element(Record) ->
             B;
         _ -> 
             ?LOG("Error reading file: ~s~n", [FilePath]),
-            wf:f("File not found: ~s.", [FilePath])
+            wf:f(Record#file.error_text++"~s.", [FilePath])
     end,
 
     Panel = #panel {
