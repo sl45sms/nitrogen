@@ -77,7 +77,9 @@ to_string_list([H|T], Acc) ->
 
 html_encode(L, false) -> wf:to_list(lists:flatten([L]));
 html_encode(L, true) -> html_encode(wf:to_list(lists:flatten([L])));
-html_encode(L, whites) -> html_encode_whites(wf:to_list(lists:flatten([L]))).	
+html_encode(L, whites) -> html_encode_whites(wf:to_list(lists:flatten([L])));
+html_encode(L,{M,F}) -> M:F(wf:to_list(lists:flatten([L])));
+html_encode(L,Fun) when is_function(Fun) -> Fun(wf:to_list(lists:flatten([L]))).
 
 html_encode([]) -> [];
 html_encode([H|T]) ->
