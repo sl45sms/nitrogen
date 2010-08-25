@@ -66,10 +66,12 @@ middle() ->
             #radio { id=myRadio3, text="Option 3", value="3" }, #br{},
             #radio { id=myRadio4, text="Option 4", value="4" }
 	]},
-
         #p{},
 	#checkbox { text="Checkbox", checked=true },
-
+	#p{},
+	#fieldset { legend="Fieldset", body=[
+		#span { text="This text is within a fieldset (with a legend)." }
+	]},
         #p{},
 	#button { text="Button" }
     ].
