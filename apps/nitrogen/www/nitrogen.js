@@ -18,11 +18,11 @@ function NitrogenClass(o) {
 NitrogenClass.prototype.$anchor = function(anchor, target) {
     this.$anchor_path = anchor;
     this.$target_path = target;
-}
+};
 
 NitrogenClass.prototype.$set_param = function(key, value) {
     this.$params[key] = value;
-}
+};
 
 /*** EVENT QUEUE ***/
 
@@ -34,14 +34,14 @@ NitrogenClass.prototype.$queue_event = function(validationGroup, eventContext, e
         extraParam      : extraParam,
         ajaxSettings    : ajaxSettings
     });
-}
+};
 
 NitrogenClass.prototype.$queue_system_event = function(eventContext) {
     // Put an event on the event_queue.
     this.$system_event_queue.push({
         eventContext : eventContext
     });
-}
+};
 
 NitrogenClass.prototype.$event_loop = function() {
     // If no events are running and an event is queued, then fire it.
@@ -70,7 +70,7 @@ NitrogenClass.prototype.$event_loop = function() {
 
     // Events queued, loop and grab it...
     setTimeout("Nitrogen.$event_loop();", 1);
-}
+};
 
 /*** VALIDATE AND SERIALIZE ***/
 
@@ -92,7 +92,7 @@ NitrogenClass.prototype.$validate_and_serialize = function(validationGroup) {
     });
     // Return the params if valid. Otherwise, return null.
     return is_valid && params || null;
-}
+};
 
 NitrogenClass.prototype.$make_id = function(element) {
     var a = [];
@@ -105,7 +105,7 @@ NitrogenClass.prototype.$make_id = function(element) {
         element = element.parentNode;
     }  
     return a.join(".");
-}
+};
 
 
 /*** AJAX METHODS ***/
@@ -147,7 +147,7 @@ NitrogenClass.prototype.$do_event = function(validationGroup, eventContext, extr
           typeof s.success == 'function' && s.error(xmlHttpRequest, textStatus, errorThrown);
         }
     });			
-}
+};
 
 /*** SYSTEM EVENTS (FOR ASYNC) ***/
 
@@ -177,7 +177,7 @@ NitrogenClass.prototype.$do_system_event = function(eventContext) {
             n.$system_event_is_running = false;
 	       }
 	   });                     
-}
+};
 
 /*** FILE UPLOAD ***/
 NitrogenClass.prototype.$upload = function(form) {
@@ -186,7 +186,7 @@ NitrogenClass.prototype.$upload = function(form) {
     form.pageContext.value = this.$params["pageContext"];
     form.submit();
     form.reset();
-}
+};
 
 /*** PATH LOOKUPS ***/
 
@@ -283,47 +283,47 @@ NitrogenClass.prototype.$valid_elements = [
 
 NitrogenClass.prototype.$observe_event = function(anchor, path, type, func) {
     objs(path, anchor).bind(type, func);
-}
+};
 
 /*** DYNAMIC UPDATING ***/
 
 NitrogenClass.prototype.$update = function(anchor, path, html) {
     objs(path, anchor).html(html);
-}
+};
 
 NitrogenClass.prototype.$replace = function(anchor, path, html) {
     objs(path, anchor).replaceWith(html);
-}
+};
 
 NitrogenClass.prototype.$insert_top = function(anchor, path, html) {
     objs(path, anchor).prepend(html);
-}
+};
 
 NitrogenClass.prototype.$insert_bottom = function(anchor, path, html) {
     objs(path, anchor).append(html);
-}
+};
 
 NitrogenClass.prototype.$remove = function(anchor, path) {
     objs(path, anchor).remove();
-}
+};
 
 
 /*** MISC ***/
 
 NitrogenClass.prototype.$return_false = function(value, args) { 
     return false; 
-}
+};
 
 NitrogenClass.prototype.$is_key_code = function(event, keyCode) {
     return (event && event.keyCode == keyCode);
-}
+};
 
 NitrogenClass.prototype.$go_next = function(controlID) {
     var o = obj(controlID);
     if (o.focus) o.focus();
     if (o.select) o.select();
     if (o.click) o.click();
-}
+};
 
 NitrogenClass.prototype.$disable_selection = function(element) {
     element.onselectstart = function() {
@@ -332,7 +332,7 @@ NitrogenClass.prototype.$disable_selection = function(element) {
     element.unselectable = "on";
     element.style.MozUserSelect = "none";
     element.style.cursor = "default";
-}
+};
 
 NitrogenClass.prototype.$set_value = function(anchor, element, value) {
     if (!element.id) element = objs(element);
@@ -341,7 +341,7 @@ NitrogenClass.prototype.$set_value = function(anchor, element, value) {
                      else if (el.checked != undefined) el.checked = value;
                      else $(el).html(value);
                  });
-}
+};
 
 NitrogenClass.prototype.$normalize_param = function(key, value) {
     // Create the key=value line to add.
@@ -350,7 +350,7 @@ NitrogenClass.prototype.$normalize_param = function(key, value) {
     if (key) { s = key; }
     if (key && value) { s = key + "=" + value; }
     return key + "&" + value;
-}
+};
 
 NitrogenClass.prototype.$encode_arguments_object = function(Obj) {
     if (! Bert) { alert("Bert.js library not included in template.") }
@@ -360,17 +360,17 @@ NitrogenClass.prototype.$encode_arguments_object = function(Obj) {
     }
     var s = Bert.encode(a);
     return "args=" + this.$urlencode(s);
-}
+};
 
 NitrogenClass.prototype.$urlencode = function(str) {
     return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/@/g, '%40');
-}
+};
 
 /*** DATE PICKER ***/
 
 NitrogenClass.prototype.$datepicker = function(pickerObj, pickerOptions) {
     jQuery(pickerObj).datepicker(pickerOptions);
-}
+};
 
 /*** AUTOCOMPLETE TEXTBOX ***/
 NitrogenClass.prototype.$autocomplete = function(path, autocompleteOptions, enterPostbackInfo, selectPostbackInfo) {
@@ -390,7 +390,7 @@ NitrogenClass.prototype.$autocomplete = function(path, autocompleteOptions, ente
         }
     });
     jQuery(path).autocomplete(autocompleteOptions);
-}
+};
 
 /*** DRAG AND DROP ***/
 
@@ -399,7 +399,7 @@ NitrogenClass.prototype.$draggable = function(path, dragOptions, dragTag) {
           el.$drag_tag = dragTag;
         jQuery(el).draggable(dragOptions);
     });
-}
+};
 
 NitrogenClass.prototype.$droppable = function(path, dropOptions, dropPostbackInfo) {
     var n = this;
@@ -410,7 +410,7 @@ NitrogenClass.prototype.$droppable = function(path, dropOptions, dropPostbackInf
     objs(path).each(function(index, el) {
           jQuery(el).droppable(dropOptions);
     });
-}
+};
 
 
 
@@ -420,7 +420,7 @@ NitrogenClass.prototype.$sortitem = function(el, sortTag) {
     var sortItem = obj(el);
     sortItem.$sort_tag = sortTag;
     sortItem.$drag_tag = sortTag;
-}
+};
 
 NitrogenClass.prototype.$sortblock = function(el, sortOptions, sortPostbackInfo) {
     var n = this;
@@ -434,7 +434,7 @@ NitrogenClass.prototype.$sortblock = function(el, sortOptions, sortPostbackInfo)
 	n.$queue_event(null, sortPostbackInfo, "sort_items=" + sortItems);
     };
     objs(el).sortable(sortOptions);
-}
+};
 
 var Nitrogen = new NitrogenClass();
 var page = document;
