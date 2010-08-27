@@ -5,10 +5,10 @@
 function NitrogenClass(o) {
     this.$url = document.location.href;
     this.$div = document;
-    this.$params = new Object();
-    this.$event_queue = new Array();
+    this.$params = {};
+    this.$event_queue = [];
     this.$event_is_running = false;
-    this.$system_event_queue = new Array();
+    this.$system_event_queue = [];
     this.$system_event_is_running = false;
     return this;
 }
@@ -354,7 +354,7 @@ NitrogenClass.prototype.$normalize_param = function(key, value) {
 
 NitrogenClass.prototype.$encode_arguments_object = function(Obj) {
     if (! Bert) { alert("Bert.js library not included in template.") }
-    var a = new Array();
+    var a = [];
     for (var i=0; i<Obj.length; i++) {
 	a.push(Obj[i]);
     }
