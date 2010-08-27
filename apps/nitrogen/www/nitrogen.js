@@ -44,15 +44,16 @@ NitrogenClass.prototype.$queue_system_event = function(eventContext) {
 };
 
 NitrogenClass.prototype.$event_loop = function() {
+    var o;
     // If no events are running and an event is queued, then fire it.
     if (!this.$system_event_is_running && this.$system_event_queue.length > 0) {
-        var o = this.$system_event_queue.shift();
+        o = this.$system_event_queue.shift();
         this.$do_system_event(o.eventContext);
     }
 
     // If no events are running and an event is queued, then fire it.
     if (!this.$event_is_running && this.$event_queue.length > 0) {
-        var o = this.$event_queue.shift();
+        o = this.$event_queue.shift();
         this.$do_event(o.validationGroup, o.eventContext, o.extraParam, o.ajaxSettings);
     }
 
@@ -202,12 +203,17 @@ function objs(path, anchor) {
     if (!anchor) {
         anchor = Nitrogen.$anchor_path;
     }
-
+    var paths,
+        a,
+        i,
+        results,
+        results2;
+        
     // Multiple parts, so split and combine results...
     if (path.indexOf(",") != -1) {
-        var paths=path.split(",");
-        var a = $();
-        for (var i=0; i<paths.length; i++) {
+        paths=path.split(",");
+        a = $();
+        for (i=0; i<paths.length; i++) {
             a = a.add(objs(paths[i], anchor));
         }
         return a;
@@ -226,7 +232,7 @@ function objs(path, anchor) {
 
     // If this is a single word, then rewrite it to a Nitrogen element id.
     if (path.indexOf(" ") == -1 && path.indexOf(".") == -1) {
-        var results = objs(".wfid_" + path, anchor);
+        results = objs(".wfid_" + path, anchor);
         
         // If we found results, then return them...
         if (results.length > 0) {
@@ -248,15 +254,15 @@ function objs(path, anchor) {
     }    
 
     // Find all results under the anchor...
-    var results = jQuery(anchor).find(path);
+    results = jQuery(anchor).find(path);
     if (results.length > 0) {
 	return results;
     }
     
     // If no results under the anchor, then try on each parent, moving upwards...
-    var results = jQuery(anchor).parents();
-    for (var i=0; i<results.length; i++) {
-	var results2 = jQuery(results.get(i)).find(path);
+    results = jQuery(anchor).parents();
+    for (i=0; i<results.length; i++) {
+	results2 = jQuery(results.get(i)).find(path);
 	if (results2.length > 0) {
 	    return results2;
 	}		
@@ -353,7 +359,7 @@ NitrogenClass.prototype.$normalize_param = function(key, value) {
 };
 
 NitrogenClass.prototype.$encode_arguments_object = function(Obj) {
-    if (! Bert) { alert("Bert.js library not included in template.") }
+    if (! Bert) { alert("Bert.js library not included in template."); }
     var a = [];
     for (var i=0; i<Obj.length; i++) {
 	a.push(Obj[i]);
