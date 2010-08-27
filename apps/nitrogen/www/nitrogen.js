@@ -3,8 +3,9 @@
 // encapsulates everything in order to prevent collisions.
 
 function NitrogenClass(o) {
-    this.$url = document.location.href;
-    this.$div = document;
+    o = o || {};
+    this.$url = o.url || document.location.href;
+    this.$div = o.div || document;
     this.$params = {};
     this.$event_queue = [];
     this.$event_is_running = false;
@@ -442,6 +443,9 @@ NitrogenClass.prototype.$sortblock = function(el, sortOptions, sortPostbackInfo)
     objs(el).sortable(sortOptions);
 };
 
-var Nitrogen = new NitrogenClass();
+var Nitrogen = new NitrogenClass({
+    url: document.location.href,
+    div: document
+});
 var page = document;
 Nitrogen.$event_loop();
