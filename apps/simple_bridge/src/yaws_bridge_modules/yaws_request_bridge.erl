@@ -40,6 +40,9 @@ peer_port(Arg) ->
 
 headers(Arg) ->
     Headers = Arg#arg.headers,
+    %% here we can add something like
+    %% Others = [{Header,Value} || {http_header,_Num,Header,_,Value} <- Headers#headers.other],
+
     [
         {connection, Headers#headers.connection},
         {accept, Headers#headers.accept},
