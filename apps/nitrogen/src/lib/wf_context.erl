@@ -29,7 +29,7 @@ socket() ->
     Req:socket().
 
 peer_ip() ->
-    Req = wf:context:request_bridge(),
+    Req = request_bridge(),
     Req:peer_ip().
 
 peer_ip(Proxies) ->
