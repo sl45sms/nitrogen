@@ -172,6 +172,15 @@ cookie(Cookie, Value, Path, MinutesToLive) ->
 socket() ->
     wf_context:socket().
 
+peer_ip() ->
+    wf_context:peer_ip().
+
+peer_ip(Proxies) ->
+    wf_context:peer_ip(Proxies).
+
+peer_ip(Proxies,ForwardedHeader) ->
+    wf_context:peer_ip(Proxies,ForwardedHeader).
+
 %%% EXPOSE QUERY_HANDLER %%%
 q(Key) -> 
     _String = query_handler:get_value(Key).
