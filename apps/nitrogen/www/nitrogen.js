@@ -366,40 +366,6 @@ NitrogenClass.prototype.$urlencode = function(str) {
     return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/@/g, '%40');
 }
 
-NitrogenClass.prototype.$lazyload_js = function(url, loaderOptions, successPostbackInfo, errorPostbackInfo) {
-    var n = this;
-    var s = jQuery.extend({
-        charset: 'UTF-8',
-        success: $.noop(),
-        error: $.noop()
-    }, loaderOptions);
-  
-    var script = document.createElement('script');
-    script.src = url;
-    script.type = 'text/javascript';
-    script.charset = s.charset;
-    script.onerror = function() {
-      n.$queue_event(null, errorPostbackInfo, "load_url="+url);
-      s.error.call(script, url);
-    };
-    var onload = function() {
-      script.onreadystatechange = script.onload = script.onerror = null;
-      s.success.call(script, url);
-      n.$queue_event(null, successPostbackInfo, "load_url="+url);
-      script.parentNode.removeChild(script); 
-    };
-    if (script.readyState) {  //IE
-        script.onreadystatechange = function() {
-            if (script.readyState == "loaded" || script.readyState == "complete")
-              onload();
-        };
-    } else { //Others
-        script.onload = onload;
-    }
-    var root = document.getElementsByTagName("head")[0] || document.documentElement;
-    root.insertBefore(script, root.firstChild);
-}
-
 NitrogenClass.prototype.__$lazyload_js = function(url, callback, cache) {
     jQuery.ajax({
         type: "GET",
@@ -460,13 +426,14 @@ NitrogenClass.prototype.$lazyload = function(loaderOptions, completePostbackInfo
             success: null,
             error: null
         }, options);
-        
+ 
         var loaderQueue = new C.MethodQueue;
         // load javascript dependencies
-        o.depends.js && loaderQueue.enqueue(function() {
+        o.depends.js.length>0 && loaderQueue.enqueue(function() {
             var jsLoaderQueue = new C.MethodQueue;
             jQuery.each(o.depends.js, function(i, url) {
                 jsLoaderQueue.enqueue(function() {
+       
                     n.__$lazyload_js(url, function(res) {
                         if (res.status=='error') {
                             n.$queue_event(null, errorPostbackInfo, 'error={"type": "javascript","message":"'+res.message+'","url":"'+res.url+'","line": '+res.line+'}');
@@ -479,7 +446,7 @@ NitrogenClass.prototype.$lazyload = function(loaderOptions, completePostbackInfo
             jsLoaderQueue.dequeue();
         });
         // load css dependencies
-        o.depends.css && loaderQueue.enqueue(function() {
+        o.depends.css.length>0 && loaderQueue.enqueue(function() {
             var _loaded = 0; 
             jQuery.each(o.depends.css, function(i, url) {
                 n.__$lazyload_css(url, function(res) {
@@ -492,7 +459,7 @@ NitrogenClass.prototype.$lazyload = function(loaderOptions, completePostbackInfo
         loaderQueue.enqueue(function() {
             n.__$lazyload_js(o.src, function(res) {
                 o.complete && o.complete.call(res);
-                completePostbackInfo && n.$queue_event(null, completePostbackInfo, "src="+n.$urlencode(src));
+                completePostbackInfo && n.$queue_event(null, completePostbackInfo, "src="+n.$urlencode(o.src));
             });
         });
         loaderQueue.dequeue();

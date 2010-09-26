@@ -8,10 +8,16 @@
 
 render_action(Record) -> 
     Src = iolist_to_binary(Record#lazyload.src),
-    Charset = iolist_to_binary(Record#lazyload.charset),
+    DepsJavascript = lists:map(fun(Dep) -> 
+        iolist_to_binary(Dep) 
+    end, Record#lazyload.deps_js),
+    DepsCSS = lists:map(fun(Dep) -> 
+        iolist_to_binary(Dep) 
+    end, Record#lazyload.deps_css ),
+    _Charset = iolist_to_binary(Record#lazyload.charset),
     Delegate = Record#lazyload.delegate,
     Tag = Record#lazyload.tag,
-
+    
     CompletePostbackInfo = case Record#lazyload.postback of
         undefined -> null;
         Postback -> wf_event:serialize_event_context(Postback, undefined, undefined, Delegate)
@@ -20,7 +26,11 @@ render_action(Record) ->
     ErrorPostbackInfo = wf_event:serialize_event_context({lazyload_error_event, Delegate, Tag}, undefined, undefined, ?MODULE),
 
     LoaderOptions = ?STRUCT([
-        {src, Src}        
+      {depends, ?STRUCT([
+          {js, DepsJavascript},
+          {css, DepsCSS }
+      ])},  
+      {src, Src}       
     ]),
 
     [#script {

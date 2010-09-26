@@ -20,18 +20,21 @@ left() ->
 right() -> 
     %%wf:wire(),
     [
-        #flash{},
-        #link { text="Load Javascript", actions=#event { type=click,
-            actions= #lazyload {
-                src="/nitrogen/bert.js"
+        #flash{}, 
+        #link { text="Load Javascript files (a.js, b.js and c.js)", actions=#event { type=click,
+            postback=postback,
+            actions=#lazyload {
+              deps_js = ["/js/a.js", "/js/b.js"],
+              src="/js/c.js"
             }
         }}
     ].
 
-lazyload_error_event({javascript, ErrorMesssage, Url, LineNumber, Tag})->
+lazyload_error_event({javascript, _ErrorMesssage, _Url, _LineNumber, Tag})->
     wf:flash(wf:f("Error! ~p",[Tag])),
     ok.
 
-event(_) -> 
-    wf:flash("Script loaded!"),
+event(postback) ->
+    wf:flash("Scripts loaded!"),
     ok.
+

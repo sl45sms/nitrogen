@@ -177,7 +177,7 @@
 -record(remove_class, {?ACTION_BASE(action_remove_class), class=none, speed=0}).
 -record(animate, {?ACTION_BASE(action_animate), options=[], speed=500, easing=swing}).
 -record(buttonize, {?ACTION_BASE(action_buttonize)}).
--record(lazyload, {?ACTION_BASE(action_lazyload), src="", charset="UTF-8", postback, tag, delegate}).
+-record(lazyload, {?ACTION_BASE(action_lazyload), src="", deps_js=[], deps_css=[], charset="UTF-8", postback, tag, delegate}).
 
 %%% Validators %%%
 -define(VALIDATOR_BASE(Module), ?ACTION_BASE(Module), text="Failed.").
