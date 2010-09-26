@@ -367,106 +367,6 @@ NitrogenClass.prototype.$urlencode = function(str) {
     return escape(str).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/@/g, '%40');
 }
 
-NitrogenClass.prototype.__$lazyload_js = function(url, callback, cache) {
-    jQuery.ajax({
-        type: "GET",
-        url: url,
-        cache: cache || false,
-        dataType: "script",
-        success: function() {
-            callback({status: 'success', url: url });
-        },
-        error: function( errorMessage, url, lineNumber ) {
-            callback({ status: 'error', message: errorMessage, url: url, line: lineNumber })
-        }
-    });
-};
-
-NitrogenClass.prototype.__$lazyload_css = function(url, callback) {
-    var link = jQuery("<link>").attr({
-        type: 'text/css',
-        rel: 'stylesheet',
-        href: url
-    })[0];
-
-    var parts = /^(\w+:)?\/\/([^\/?#]+)/.exec( url ),
-    external = parts && (parts[1] && parts[1] !== location.protocol || parts[2] !== location.host);
-    
-    if (("onload" in link) && !jQuery.browser.webkit) {
-        link.onload = function() {
-            callback({ status: 'success', url: url });
-        };
-    } else {
-        (function() {
-            try { link.sheet.cssRules } catch (e) {
-                if (!external) { // crossdomain request - fire onload immediately
-                    setTimeout(arguments.callee, 50);
-                    return;
-                }
-            };
-            callback({ status: 'success', url: url });
-        })();
-    }
-    jQuery("head").append(link);
-};
-
-NitrogenClass.prototype.$lazyload = function(loaderOptions, completePostbackInfo, errorPostbackInfo) {
-    var n = this, C = NitrogenClass;
-    if (!jQuery.isArray(loaderOptions))
-        loaderOptions = [loaderOptions];
-    
-    jQuery.each(loaderOptions, function(i, options) {
-        var o = jQuery.extend({
-            src: null,
-            depends: {
-                js: [],
-                css: []
-            },
-            cache: false,
-            complete: null,
-            success: null,
-            error: null
-        }, options);
- 
-        var loaderQueue = new C.MethodQueue;
-        // load javascript dependencies
-        o.depends.js.length>0 && loaderQueue.enqueue(function() {
-            var jsLoaderQueue = new C.MethodQueue;
-            jQuery.each(o.depends.js, function(i, url) {
-                jsLoaderQueue.enqueue(function() {
-       
-                    n.__$lazyload_js(url, function(res) {
-                        if (res.status=='error') {
-                            n.$queue_event(null, errorPostbackInfo, 'error={"type": "javascript","message":"'+res.message+'","url":"'+res.url+'","line": '+res.line+'}');
-                        }
-                        o[res.status] && o[res.status].call(r);
-                        (!jsLoaderQueue.dequeue()) && loaderQueue.dequeue();
-                    }, o.cache );
-                });
-            });
-            jsLoaderQueue.dequeue();
-        });
-        // load css dependencies
-        o.depends.css.length>0 && loaderQueue.enqueue(function() {
-            var _loaded = 0; 
-            jQuery.each(o.depends.css, function(i, url) {
-                n.__$lazyload_css(url, function(res) {
-                    o[res.status] && o[res.status].call(res);
-                    ((++_loaded) == o.depends.css.length) && loaderQueue.dequeue();
-                });
-            });
-        });
-        // load main script
-        loaderQueue.enqueue(function() {
-            n.__$lazyload_js(o.src, function(res) {
-                o.complete && o.complete.call(res);
-                completePostbackInfo && n.$queue_event(null, completePostbackInfo, "src="+n.$urlencode(o.src));
-            });
-        });
-        loaderQueue.dequeue();
-  });
-};
-
 /*** DATE PICKER ***/
 
 NitrogenClass.prototype.$datepicker = function(pickerObj, pickerOptions) {
@@ -550,23 +450,6 @@ NitrogenClass.prototype.$sortblock = function(el, sortOptions, sortPostbackInfo)
     };
     objs(el).sortable(sortOptions);
 }
-/*** HELPER ***/
-
-NitrogenClass.MethodQueue = function() {
-    this._methods = [];
-}
-NitrogenClass.MethodQueue.prototype = {
-    enqueue: function(fn) {
-        if (typeof fn == 'function') 
-            this._methods.push(fn);
-    },
-    dequeue: function() {
-        if (this._methods[0]) {
-            this._methods.shift()(Array.prototype.slice.call(arguments));
-            return this;
-        }
-    }
-};
 
 var Nitrogen = new NitrogenClass();
 var page = document;
