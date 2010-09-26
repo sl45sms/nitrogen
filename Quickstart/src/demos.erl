@@ -76,7 +76,8 @@ right() ->
 	#link { text="AJAX Remove", url="/demos/remove" }, #br{},
 	#link { text="JQuery Paths", url="/demos/jquerypaths" }, #br{}, 
 	#link { text="Javascript API", url="/demos/api" }, #br{},
-
+  #link { text="LazyLoad", url="/demos/lazyload" }, #br{},
+  
 	#h2 { text="Comet/Asynchronous Calls" },
 	#p{},
 	#link { text="Counter with Comet", url="/demos/comet1" }, #br{},
