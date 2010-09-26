@@ -16,16 +16,16 @@ render_element(Record) ->
     AutoCompleteEnterPostbackInfo = wf_event:serialize_event_context({autocomplete_enter_event, Delegate, Tag}, Anchor, undefined, ?MODULE),
     AutoCompleteSelectPostbackInfo = wf_event:serialize_event_context({autocomplete_select_event, Delegate, Tag }, Anchor, undefined, ?MODULE ),
     
-    AutoCompleteOptions = {struct, [
+    AutoCompleteOptions = ?STRUCT([
         {dataType, <<"json">>},
         {minLength, AutoCompleteMinLength},
         {delay, AutoCompleteDelay}
-    ]},
+    ]),
     
     AutoCompleteScript = #script {
         script = wf:f("Nitrogen.$autocomplete('~s', ~s, '~s', '~s');", [
           Anchor,
-          mochijson2:encode(AutoCompleteOptions),
+          ?JSON_ENCODE(AutoCompleteOptions),
           AutoCompleteEnterPostbackInfo, 
           AutoCompleteSelectPostbackInfo
         ])
@@ -42,7 +42,7 @@ render_element(Record) ->
     ]).
 
 event({autocomplete_select_event, Delegate, SelectTag})->
-   {struct, JsonData} = mochijson2:decode(wf:q(select_item)),
+   {struct, JsonData} = ?JSON_DECODE(wf:q(select_item)),
     SelectItem = [
         { id, proplists:get_value(<<"id">>, JsonData)}, 
         { value, proplists:get_value(<<"value">> , JsonData)}

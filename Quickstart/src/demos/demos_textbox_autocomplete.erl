@@ -27,17 +27,17 @@ right() ->
 
 autocomplete_enter_event(SearchTerm, _Tag) ->
     Data = [
-      {struct, [{id, <<"perl">>}, {label, <<"Perl">>} , {value, <<"Perl">> }]},
-      {struct, [{id, <<"php">>}, {label, <<"PHP">>} , {value, <<"PHP">> }]},
-      {struct, [{id, <<"erlang">>}, {label, <<"Erlang">>} , {value, <<"Erlang">> }]},
-      {struct, [{id, <<"ruby">>}, {label, <<"Ruby">>} , {value, <<"Ruby">> }]},
-      {struct, [{id, <<"scala">>}, {label, <<"Scala">>} , {value, <<"Scala">> }]}
+      ?STRUCT([{id, <<"perl">>}, {label, <<"Perl">>} , {value, <<"Perl">> }]),
+      ?STRUCT([{id, <<"php">>}, {label, <<"PHP">>} , {value, <<"PHP">> }]),
+      ?STRUCT([{id, <<"erlang">>}, {label, <<"Erlang">>} , {value, <<"Erlang">> }]),
+      ?STRUCT([{id, <<"ruby">>}, {label, <<"Ruby">>} , {value, <<"Ruby">> }]),
+      ?STRUCT([{id, <<"scala">>}, {label, <<"Scala">>} , {value, <<"Scala">> }])
     ],
     List = [{struct,[{id, Id }, {label, Label}, {value, Value}]} || 
       {struct,[{id, Id }, {label, Label}, {value, Value}]} <- Data, 
       string:str(string:to_lower(binary_to_list(Label)), string:to_lower(SearchTerm)) > 0
     ],
-    mochijson2:encode(List).
+    ?JSON_ENCODE(List).
 
 autocomplete_select_event([{ id, _ },{ value, Value }] , _Tag) ->
     wf:flash(Value),

@@ -56,6 +56,11 @@
 -define(DEBUG, error_logger:info_msg("DEBUG: ~p:~p~n", [?MODULE, ?LINE])).
 -endif.
 
+%%% JSON HELPER %%%
+-define(STRUCT(Props), {struct, Props}).
+-define(JSON_ENCODE(Any), mochijson2:encode(Any)).
+-define(JSON_DECODE(Any), mochijson2:decode(Any)).
+
 %%% GUARDS %%%
 -define (IS_STRING(Term), (is_list(Term) andalso Term /= [] andalso is_integer(hd(Term)))).
 
@@ -172,6 +177,7 @@
 -record(remove_class, {?ACTION_BASE(action_remove_class), class=none, speed=0}).
 -record(animate, {?ACTION_BASE(action_animate), options=[], speed=500, easing=swing}).
 -record(buttonize, {?ACTION_BASE(action_buttonize)}).
+-record(lazyload, {?ACTION_BASE(action_lazyload), src="", charset="UTF-8", postback, tag, delegate}).
 
 %%% Validators %%%
 -define(VALIDATOR_BASE(Module), ?ACTION_BASE(Module), text="Failed.").

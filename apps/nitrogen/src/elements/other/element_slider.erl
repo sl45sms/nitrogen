@@ -13,7 +13,7 @@ render_element(Record) ->
 
     ChangePostbackInfo = wf_event:serialize_event_context({slider_change_event, Delegate, Tag}, Anchor, undefined, ?MODULE),
 
-    SliderOptions = {struct, [
+    SliderOptions = ?STRUCT([
         {value, Record#slider.value},
         {max, Record#slider.max},
         {min, Record#slider.min},
@@ -23,12 +23,12 @@ render_element(Record) ->
         {range, Record#slider.range},
         {orientation, Record#slider.orientation},
         {values, Record#slider.values}
-    ]},
+    ]),
     
     SliderScript = #script {
         script = wf:f("Nitrogen.$slider('~s', ~s, '~s');", [
             Anchor,
-            mochijson2:encode(SliderOptions),
+            ?JSON_ENCODE(SliderOptions),
             ChangePostbackInfo
         ])
     },
@@ -47,6 +47,7 @@ render_element(Record) ->
     }).
 
 event({slider_change_event, Delegate, ChangeTag})->
-    ChangeValue = mochijson2:decode(wf:q(change_value)),
+    ChangeValue = ?JSON_DECODE(wf:q(change_value)),
     Module = wf:coalesce([Delegate, wf:page_module()]),
     Module:slider_change_event(ChangeValue, ChangeTag).
+
