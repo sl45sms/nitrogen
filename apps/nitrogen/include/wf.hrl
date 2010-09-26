@@ -108,8 +108,8 @@
 -record(tableheader, {?ELEMENT_BASE(element_tableheader), text="", html_encode=true, body="", align="left", valign="middle", colspan=1, rowspan=1}).
 -record(tablecell, {?ELEMENT_BASE(element_tablecell), text="", html_encode=true, body="", align="left", valign="middle", colspan=1, rowspan=1}).
 -record(singlerow, {?ELEMENT_BASE(element_singlerow), cells}). 
--record(file, {?ELEMENT_BASE(element_file), file}).
--record(flash, {?ELEMENT_BASE(element_flash)}).
+-record(file, {?ELEMENT_BASE(element_file), file,error_text="File not found: "}).
+-record(flash, {?ELEMENT_BASE(element_flash),close_text="Close"}).
 -record(placeholder, {?ELEMENT_BASE(element_placeholder), body=[]}).
 -record(bind, {?ELEMENT_BASE(element_bind), data=[], map=[], transform, acc=[], body=[], empty_body=[]}).
 -record(sortblock, {?ELEMENT_BASE(element_sortblock), tag, items=[], group, connect_with_groups=none, handle, delegate=undefined }).
@@ -117,8 +117,8 @@
 -record(draggable, {?ELEMENT_BASE(element_draggable), tag, body=[], group, handle, clone=true, revert=true, scroll=true, container = false, zindex = false}).
 -record(droppable, {?ELEMENT_BASE(element_droppable), tag, body=[], accept_groups=all, active_class=active, hover_class=hover, delegate=undefined}).
 -record(gravatar, {?ELEMENT_BASE(element_gravatar), email="", size="80", rating="g", default=""}).
--record(inplace_textarea, {?ELEMENT_BASE(element_inplace_textarea), tag, text="", html_encode=true, start_mode=view, validators=[], delegate=undefined}).
--record(inplace_textbox, {?ELEMENT_BASE(element_inplace_textbox), tag, text="", html_encode=true, start_mode=view, validators=[], delegate=undefined}).
+-record(inplace_textarea, {?ELEMENT_BASE(element_inplace_textarea), tag, text="", html_encode=true,instructions_text="Click to edit", ok_button_text="OK", cancel_button_text="Cancel", start_mode=view, validators=[],delegate=undefined}).
+-record(inplace_textbox, {?ELEMENT_BASE(element_inplace_textbox), tag, text="", html_encode=true, instructions_text="Click to edit", ok_button_text="OK", cancel_button_text="Cancel", start_mode=view, validators=[], delegate=undefined}).
 -record(wizard, {?ELEMENT_BASE(element_wizard), tag, titles, steps }).
 -record(upload, {?ELEMENT_BASE(element_upload), delegate, tag, show_button=true, button_text="Upload" }).
 -record(sparkline, {?ELEMENT_BASE(element_sparkline), type, values, options }).

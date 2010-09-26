@@ -8,11 +8,12 @@
 
 reflect() -> record_info(fields, flash).
 
-render_element(_Record) -> 
+render_element(Record) -> 
     Terms = #panel { 
         id=flash,
         class=flash_container
     },
+    wf:state(flash_close_text,Record#flash.close_text),
     wf:state(has_flash, true),
     Terms.
 
@@ -41,7 +42,7 @@ get_flashes() ->
     F = fun(X) ->
         FlashID = wf:temp_id(),
         InnerPanel = #panel { class=flash, actions=#show { target=FlashID, effect=blind, speed=400 }, body=[
-            #link { class=flash_close_button, text="Close", actions=#event { type=click, target=FlashID, actions=#hide { effect=blind, speed=400 } } },
+            #link { class=flash_close_button, text=wf:state(flash_close_text), actions=#event { type=click, target=FlashID, actions=#hide { effect=blind, speed=400 } } },
             #panel { class=flash_content, body=X }
         ]},
         #panel { id=FlashID, style="display: none;", body=InnerPanel}

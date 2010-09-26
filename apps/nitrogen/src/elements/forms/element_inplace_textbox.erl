@@ -36,7 +36,7 @@ render_element(Record) ->
                 #span { id=LabelID, class="label", text=Text, html_encode=Record#inplace_textbox.html_encode, actions=[
                     #buttonize { target=ViewPanelID }
                 ]},
-                #span { id=MouseOverID, class="instructions", text="Click to edit", actions=#hide{} }
+                #span { id=MouseOverID, class="instructions", text=Record#inplace_textbox.instructions_text, actions=#hide{} }
             ], actions = [
                     #event { type=click, actions=[
                         #hide { target=ViewPanelID },
@@ -48,8 +48,8 @@ render_element(Record) ->
             ]},
             #panel { id=EditPanelID, class="edit", body=[
                 #textbox { id=TextBoxID, text=Text, next=OKButtonID },
-                #button { id=OKButtonID, text="OK", actions=OKEvent#event { type=click } },
-                #button { id=CancelButtonID, text="Cancel", actions=CancelEvent#event { type=click } }
+                #button { id=OKButtonID, text=Record#inplace_textbox.ok_button_text, actions=OKEvent#event { type=click } },
+                #button { id=CancelButtonID, text=Record#inplace_textbox.cancel_button_text, actions=CancelEvent#event { type=click } }
             ]}
         ]
     },
