@@ -7,26 +7,11 @@ technology stack.
 See the [Nitrogen Project website](http://nitrogenproject.com) for
 additional information.
 
-### Getting Started
+## Getting Started
 
-Download the code and move to the experimental branch.
+Follow the tutorial at
+[http://nitrogenproject.com/doc/tutorial.html](http://nitrogenproject.com/doc/tutorial.html)
 
-    git clone git://github.com/rklophaus/nitrogen.git
-    cd nitrogen
+## Building Nitrogen on Windows
 
-Then, run the following...
-
-### On Mac OSX / Linux
-
-    cd Quickstart 
-    ./quickstart.sh
-
-Open your web browser to http://localhost:8000
-
-### Create a New Project
-
-    make rel_inets
-    cd rel/nitrogen
-    bin/nitrogen start
-
-Open your web browser to http://localhost:8000
+Instructions for building on windows can be found in [rel/overlay/win](https://github.com/nitrogen/nitrogen/blob/master/rel/overlay/win/README.md)
