@@ -4,6 +4,7 @@ coverage
 .hgignore
 *.beam
 rel/nitrogen
+deps/
 TAGS
 builds
 Quickstart/static/nitrogen
@@ -12,3 +13,5 @@ Quickstart/static/doc
 .*.sw?
 rel/rebar
 rel/overlay/common/rebar
+thanks.txt
+deps/
